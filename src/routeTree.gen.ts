@@ -9,38 +9,107 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as InscricoesRouteImport } from './routes/inscricoes'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CampeonatosIdRouteImport } from './routes/campeonatos.$id'
+import { Route as CampeonatosIdPublicoRouteImport } from './routes/campeonatos.$id.publico'
 
+const InscricoesRoute = InscricoesRouteImport.update({
+  id: '/inscricoes',
+  path: '/inscricoes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CampeonatosIdRoute = CampeonatosIdRouteImport.update({
+  id: '/campeonatos/$id',
+  path: '/campeonatos/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CampeonatosIdPublicoRoute = CampeonatosIdPublicoRouteImport.update({
+  id: '/publico',
+  path: '/publico',
+  getParentRoute: () => CampeonatosIdRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/inscricoes': typeof InscricoesRoute
+  '/campeonatos/$id': typeof CampeonatosIdRouteWithChildren
+  '/campeonatos/$id/publico': typeof CampeonatosIdPublicoRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/inscricoes': typeof InscricoesRoute
+  '/campeonatos/$id': typeof CampeonatosIdRouteWithChildren
+  '/campeonatos/$id/publico': typeof CampeonatosIdPublicoRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dashboard': typeof DashboardRoute
+  '/inscricoes': typeof InscricoesRoute
+  '/campeonatos/$id': typeof CampeonatosIdRouteWithChildren
+  '/campeonatos/$id/publico': typeof CampeonatosIdPublicoRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/dashboard'
+    | '/inscricoes'
+    | '/campeonatos/$id'
+    | '/campeonatos/$id/publico'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/dashboard'
+    | '/inscricoes'
+    | '/campeonatos/$id'
+    | '/campeonatos/$id/publico'
+  id:
+    | '__root__'
+    | '/'
+    | '/dashboard'
+    | '/inscricoes'
+    | '/campeonatos/$id'
+    | '/campeonatos/$id/publico'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DashboardRoute: typeof DashboardRoute
+  InscricoesRoute: typeof InscricoesRoute
+  CampeonatosIdRoute: typeof CampeonatosIdRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/inscricoes': {
+      id: '/inscricoes'
+      path: '/inscricoes'
+      fullPath: '/inscricoes'
+      preLoaderRoute: typeof InscricoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +117,41 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/campeonatos/$id': {
+      id: '/campeonatos/$id'
+      path: '/campeonatos/$id'
+      fullPath: '/campeonatos/$id'
+      preLoaderRoute: typeof CampeonatosIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/campeonatos/$id/publico': {
+      id: '/campeonatos/$id/publico'
+      path: '/publico'
+      fullPath: '/campeonatos/$id/publico'
+      preLoaderRoute: typeof CampeonatosIdPublicoRouteImport
+      parentRoute: typeof CampeonatosIdRoute
+    }
   }
 }
 
+interface CampeonatosIdRouteChildren {
+  CampeonatosIdPublicoRoute: typeof CampeonatosIdPublicoRoute
+}
+
+const CampeonatosIdRouteChildren: CampeonatosIdRouteChildren = {
+  CampeonatosIdPublicoRoute: CampeonatosIdPublicoRoute,
+}
+
+const CampeonatosIdRouteWithChildren = CampeonatosIdRoute._addFileChildren(
+  CampeonatosIdRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DashboardRoute: DashboardRoute,
+  InscricoesRoute: InscricoesRoute,
+  CampeonatosIdRoute: CampeonatosIdRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
