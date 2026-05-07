@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as InscricoesRouteImport } from './routes/inscricoes'
+import { Route as FeedRouteImport } from './routes/feed'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CadastroRouteImport } from './routes/cadastro'
 import { Route as IndexRouteImport } from './routes/index'
@@ -25,6 +26,11 @@ const LoginRoute = LoginRouteImport.update({
 const InscricoesRoute = InscricoesRouteImport.update({
   id: '/inscricoes',
   path: '/inscricoes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FeedRoute = FeedRouteImport.update({
+  id: '/feed',
+  path: '/feed',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -57,6 +63,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cadastro': typeof CadastroRoute
   '/dashboard': typeof DashboardRoute
+  '/feed': typeof FeedRoute
   '/inscricoes': typeof InscricoesRoute
   '/login': typeof LoginRoute
   '/campeonatos/$id': typeof CampeonatosIdRouteWithChildren
@@ -66,6 +73,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cadastro': typeof CadastroRoute
   '/dashboard': typeof DashboardRoute
+  '/feed': typeof FeedRoute
   '/inscricoes': typeof InscricoesRoute
   '/login': typeof LoginRoute
   '/campeonatos/$id': typeof CampeonatosIdRouteWithChildren
@@ -76,6 +84,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/cadastro': typeof CadastroRoute
   '/dashboard': typeof DashboardRoute
+  '/feed': typeof FeedRoute
   '/inscricoes': typeof InscricoesRoute
   '/login': typeof LoginRoute
   '/campeonatos/$id': typeof CampeonatosIdRouteWithChildren
@@ -87,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/cadastro'
     | '/dashboard'
+    | '/feed'
     | '/inscricoes'
     | '/login'
     | '/campeonatos/$id'
@@ -96,6 +106,7 @@ export interface FileRouteTypes {
     | '/'
     | '/cadastro'
     | '/dashboard'
+    | '/feed'
     | '/inscricoes'
     | '/login'
     | '/campeonatos/$id'
@@ -105,6 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/cadastro'
     | '/dashboard'
+    | '/feed'
     | '/inscricoes'
     | '/login'
     | '/campeonatos/$id'
@@ -115,6 +127,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CadastroRoute: typeof CadastroRoute
   DashboardRoute: typeof DashboardRoute
+  FeedRoute: typeof FeedRoute
   InscricoesRoute: typeof InscricoesRoute
   LoginRoute: typeof LoginRoute
   CampeonatosIdRoute: typeof CampeonatosIdRouteWithChildren
@@ -134,6 +147,13 @@ declare module '@tanstack/react-router' {
       path: '/inscricoes'
       fullPath: '/inscricoes'
       preLoaderRoute: typeof InscricoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/feed': {
+      id: '/feed'
+      path: '/feed'
+      fullPath: '/feed'
+      preLoaderRoute: typeof FeedRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -190,6 +210,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CadastroRoute: CadastroRoute,
   DashboardRoute: DashboardRoute,
+  FeedRoute: FeedRoute,
   InscricoesRoute: InscricoesRoute,
   LoginRoute: LoginRoute,
   CampeonatosIdRoute: CampeonatosIdRouteWithChildren,
@@ -197,3 +218,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
