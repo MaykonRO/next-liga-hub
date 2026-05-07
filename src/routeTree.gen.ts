@@ -9,12 +9,18 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as LoginRouteImport } from './routes/login'
 import { Route as InscricoesRouteImport } from './routes/inscricoes'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CampeonatosIdRouteImport } from './routes/campeonatos.$id'
 import { Route as CampeonatosIdPublicoRouteImport } from './routes/campeonatos.$id.publico'
 
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InscricoesRoute = InscricoesRouteImport.update({
   id: '/inscricoes',
   path: '/inscricoes',
@@ -45,6 +51,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/inscricoes': typeof InscricoesRoute
+  '/login': typeof LoginRoute
   '/campeonatos/$id': typeof CampeonatosIdRouteWithChildren
   '/campeonatos/$id/publico': typeof CampeonatosIdPublicoRoute
 }
@@ -52,6 +59,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/inscricoes': typeof InscricoesRoute
+  '/login': typeof LoginRoute
   '/campeonatos/$id': typeof CampeonatosIdRouteWithChildren
   '/campeonatos/$id/publico': typeof CampeonatosIdPublicoRoute
 }
@@ -60,6 +68,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/dashboard': typeof DashboardRoute
   '/inscricoes': typeof InscricoesRoute
+  '/login': typeof LoginRoute
   '/campeonatos/$id': typeof CampeonatosIdRouteWithChildren
   '/campeonatos/$id/publico': typeof CampeonatosIdPublicoRoute
 }
@@ -69,6 +78,7 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/inscricoes'
+    | '/login'
     | '/campeonatos/$id'
     | '/campeonatos/$id/publico'
   fileRoutesByTo: FileRoutesByTo
@@ -76,6 +86,7 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/inscricoes'
+    | '/login'
     | '/campeonatos/$id'
     | '/campeonatos/$id/publico'
   id:
@@ -83,6 +94,7 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/inscricoes'
+    | '/login'
     | '/campeonatos/$id'
     | '/campeonatos/$id/publico'
   fileRoutesById: FileRoutesById
@@ -91,11 +103,19 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DashboardRoute: typeof DashboardRoute
   InscricoesRoute: typeof InscricoesRoute
+  LoginRoute: typeof LoginRoute
   CampeonatosIdRoute: typeof CampeonatosIdRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/inscricoes': {
       id: '/inscricoes'
       path: '/inscricoes'
@@ -150,6 +170,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DashboardRoute: DashboardRoute,
   InscricoesRoute: InscricoesRoute,
+  LoginRoute: LoginRoute,
   CampeonatosIdRoute: CampeonatosIdRouteWithChildren,
 }
 export const routeTree = rootRouteImport
