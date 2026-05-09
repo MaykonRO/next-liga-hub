@@ -1,8 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { Image as ImageIcon, Heart, MessageCircle } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { Topbar } from "@/components/Topbar";
+import { createFileRoute } from "@tanstack/react-router";
+import { Heart, Image as ImageIcon, MessageCircle } from "lucide-react";
+import { useState } from "react";
 
 export const Route = createFileRoute("/feed")({
   head: () => ({
@@ -35,8 +35,7 @@ const POSTS: Post[] = [
     initials: "CM",
     role: "Organizador",
     time: "há 12 min",
-    text:
-      "Final da Copa Verão 2026 confirmada para o próximo sábado, 16h, na Arena Central. Vai ter transmissão ao vivo no canal oficial da NextLiga. Nos vemos lá!",
+    text: "Final da Copa Verão 2026 confirmada para o próximo sábado, 16h, na Arena Central. Vai ter transmissão ao vivo no canal oficial da NextLiga. Nos vemos lá!",
     likes: 142,
     comments: 23,
   },
@@ -46,8 +45,7 @@ const POSTS: Post[] = [
     initials: "JR",
     role: "Atleta",
     time: "há 2 h",
-    text:
-      "Que jogo intenso ontem contra o Tigres FC! 3x2 nos acréscimos e classificação garantida pra semifinal. Obrigada à torcida que lotou o ginásio!",
+    text: "Que jogo intenso ontem contra o Tigres FC! 3x2 nos acréscimos e classificação garantida pra semifinal. Obrigada à torcida que lotou o ginásio!",
     image:
       "https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&w=1200&q=80",
     likes: 318,
@@ -59,8 +57,7 @@ const POSTS: Post[] = [
     initials: "RL",
     role: "Árbitro",
     time: "há 5 h",
-    text:
-      "Reunião técnica de árbitros marcada para terça às 19h. Vamos revisar os novos critérios de aplicação do VAR para o segundo turno. Presença obrigatória.",
+    text: "Reunião técnica de árbitros marcada para terça às 19h. Vamos revisar os novos critérios de aplicação do VAR para o segundo turno. Presença obrigatória.",
     likes: 56,
     comments: 12,
   },
@@ -70,8 +67,7 @@ const POSTS: Post[] = [
     initials: "NL",
     role: "Organizador",
     time: "há 1 d",
-    text:
-      "Estatística da rodada: 38 gols marcados em 12 partidas. Média de 3,17 gols por jogo — a maior dos últimos 4 campeonatos. Parabéns aos atletas pela atuação!",
+    text: "Estatística da rodada: 38 gols marcados em 12 partidas. Média de 3,17 gols por jogo — a maior dos últimos 4 campeonatos. Parabéns aos atletas pela atuação!",
     image:
       "https://images.unsplash.com/photo-1431324155629-1a6deb1dec8d?auto=format&fit=crop&w=1200&q=80",
     likes: 521,
@@ -97,7 +93,7 @@ function FeedPage() {
     <AppShell>
       <Topbar title="Feed" subtitle="Momentos da comunidade" action={<div />} />
 
-      <div className="max-w-2xl mx-auto px-4 lg:px-8 py-6 space-y-5">
+      <div className="max-w-6xl mx-auto px-4 lg:px-8 py-6 space-y-5">
         {/* Composer */}
         <div className="bg-surface border border-border rounded-xl p-4">
           <div className="flex gap-3">

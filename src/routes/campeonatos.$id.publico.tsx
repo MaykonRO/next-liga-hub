@@ -1,13 +1,17 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
 import { StatusPill } from "@/components/StatusPill";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Heart, MapPin, MessageCircle } from "lucide-react";
 import { useState } from "react";
-import { MapPin, Heart, MessageCircle } from "lucide-react";
 
 export const Route = createFileRoute("/campeonatos/$id/publico")({
   head: () => ({
     meta: [
       { title: "Copa Verão 2026 — Página pública" },
-      { name: "description", content: "Acompanhe a Copa Verão 2026 em tempo real: jogos, classificação e momentos do campeonato." },
+      {
+        name: "description",
+        content:
+          "Acompanhe a Copa Verão 2026 em tempo real: jogos, classificação e momentos do campeonato.",
+      },
     ],
   }),
   component: PublicView,
@@ -24,9 +28,11 @@ function PublicView() {
         <div className="max-w-6xl mx-auto px-4 lg:px-8 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2">
             <span className="font-display text-2xl tracking-wider">NEXTLIGA</span>
-            <span className="w-2 h-2 rounded-full bg-gold" />
           </Link>
-          <Link to="/dashboard" className="px-4 h-9 rounded-lg border border-border hover:border-primary/40 text-sm font-medium flex items-center">
+          <Link
+            to="/dashboard"
+            className="px-4 h-9 rounded-lg border border-border hover:border-primary/40 text-sm font-medium flex items-center"
+          >
             Entrar
           </Link>
         </div>
@@ -40,7 +46,9 @@ function PublicView() {
             <div>
               <StatusPill variant="live">Ao vivo</StatusPill>
               <h1 className="font-display text-4xl lg:text-6xl mt-3">COPA VERÃO 2026</h1>
-              <p className="text-muted-foreground mt-2">Futebol Society · 6 mai – 12 jun · 32 equipes</p>
+              <p className="text-muted-foreground mt-2">
+                Futebol Society · 6 mai – 12 jun · 32 equipes
+              </p>
             </div>
             <div className="flex gap-6 text-center">
               <div>
@@ -64,7 +72,9 @@ function PublicView() {
               key={t}
               onClick={() => setTab(t)}
               className={`px-4 py-3 text-sm whitespace-nowrap border-b-2 transition ${
-                tab === t ? "border-primary text-foreground" : "border-transparent text-muted-foreground hover:text-foreground"
+                tab === t
+                  ? "border-primary text-foreground"
+                  : "border-transparent text-muted-foreground hover:text-foreground"
               }`}
             >
               {t}
@@ -85,7 +95,14 @@ function PublicView() {
 
 function Schedule() {
   const games = [
-    { time: "14:00", a: "Tigres FC", b: "Águias SC", venue: "Quadra Central", live: true, score: "2 × 1" },
+    {
+      time: "14:00",
+      a: "Tigres FC",
+      b: "Águias SC",
+      venue: "Quadra Central",
+      live: true,
+      score: "2 × 1",
+    },
     { time: "16:30", a: "Leões", b: "Pumas", venue: "Quadra 2", live: false },
     { time: "19:00", a: "Dragões", b: "Falcões", venue: "Estádio Norte", live: false },
     { time: "21:00", a: "Cobras", b: "Lobos", venue: "Quadra Central", live: false },
@@ -95,7 +112,10 @@ function Schedule() {
       <h2 className="font-display text-3xl mb-5">HOJE · QUARTA, 6 MAI</h2>
       <div className="space-y-3">
         {games.map((g, i) => (
-          <div key={i} className="p-5 rounded-2xl bg-surface border border-border card-hover flex items-center gap-4 flex-wrap">
+          <div
+            key={i}
+            className="p-5 rounded-2xl bg-surface border border-border card-hover flex items-center gap-4 flex-wrap"
+          >
             <div className="w-20">
               <p className="font-display text-2xl text-gold">{g.time}</p>
               {g.live && <StatusPill variant="live">Live</StatusPill>}
@@ -143,7 +163,12 @@ function Standings() {
             {teams.map((t, i) => (
               <tr key={t.team} className="border-t border-border">
                 <td className="px-5 py-3">
-                  <span className="font-display text-lg" style={{ color: i === 0 ? "var(--gold)" : undefined }}>{i + 1}</span>
+                  <span
+                    className="font-display text-lg"
+                    style={{ color: i === 0 ? "var(--gold)" : undefined }}
+                  >
+                    {i + 1}
+                  </span>
                 </td>
                 <td className="px-3 py-3 font-medium">{t.team}</td>
                 <td className="px-3 py-3 text-center text-success">{t.w}</td>
@@ -170,15 +195,38 @@ function BracketSimple() {
 
 function Feed() {
   const posts = [
-    { author: "Tigres FC", time: "há 12 min", text: "Que vitória, time! Vamos pra semi 🐯", img: "linear-gradient(135deg,#3d6ef5,#f0a500)" },
-    { author: "Organização", time: "há 1h", text: "Cronograma atualizado para esta semana.", img: "linear-gradient(135deg,#2ecf7a,#3d6ef5)" },
-    { author: "Águias SC", time: "há 2h", text: "Aquecimento antes do clássico ⚽", img: "linear-gradient(135deg,#f0a500,#ff4f6a)" },
-    { author: "Leões", time: "há 4h", text: "Concentração total para o próximo jogo.", img: "linear-gradient(135deg,#5b87ff,#2ecf7a)" },
+    {
+      author: "Tigres FC",
+      time: "há 12 min",
+      text: "Que vitória, time! Vamos pra semi 🐯",
+      img: "linear-gradient(135deg,#3d6ef5,#f0a500)",
+    },
+    {
+      author: "Organização",
+      time: "há 1h",
+      text: "Cronograma atualizado para esta semana.",
+      img: "linear-gradient(135deg,#2ecf7a,#3d6ef5)",
+    },
+    {
+      author: "Águias SC",
+      time: "há 2h",
+      text: "Aquecimento antes do clássico ⚽",
+      img: "linear-gradient(135deg,#f0a500,#ff4f6a)",
+    },
+    {
+      author: "Leões",
+      time: "há 4h",
+      text: "Concentração total para o próximo jogo.",
+      img: "linear-gradient(135deg,#5b87ff,#2ecf7a)",
+    },
   ];
   return (
     <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
       {posts.map((p, i) => (
-        <article key={i} className="rounded-2xl bg-surface border border-border overflow-hidden card-hover">
+        <article
+          key={i}
+          className="rounded-2xl bg-surface border border-border overflow-hidden card-hover"
+        >
           <div className="aspect-video" style={{ background: p.img }} />
           <div className="p-4">
             <div className="flex items-center gap-2 mb-2">
@@ -192,8 +240,12 @@ function Feed() {
             </div>
             <p className="text-sm text-foreground/90">{p.text}</p>
             <div className="flex items-center gap-4 mt-3 text-xs text-muted-foreground">
-              <span className="flex items-center gap-1"><Heart className="w-3.5 h-3.5" /> 24</span>
-              <span className="flex items-center gap-1"><MessageCircle className="w-3.5 h-3.5" /> 5</span>
+              <span className="flex items-center gap-1">
+                <Heart className="w-3.5 h-3.5" /> 24
+              </span>
+              <span className="flex items-center gap-1">
+                <MessageCircle className="w-3.5 h-3.5" /> 5
+              </span>
             </div>
           </div>
         </article>

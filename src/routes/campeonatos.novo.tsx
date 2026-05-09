@@ -1,6 +1,6 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppShell } from "@/components/AppShell";
 import { Topbar } from "@/components/Topbar";
+import { createFileRoute, Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/campeonatos/novo")({
   head: () => ({
@@ -39,7 +39,7 @@ function NewChampionship() {
       <main className="p-4 lg:p-8">
         <form
           onSubmit={(e) => e.preventDefault()}
-          className="max-w-3xl mx-auto rounded-2xl bg-surface border border-border p-6 lg:p-8 space-y-10"
+          className="max-w-6xl mx-auto rounded-2xl bg-surface border border-border p-6 lg:p-8 space-y-10"
         >
           {/* Section 1 */}
           <section>
@@ -147,12 +147,14 @@ function NewChampionship() {
             >
               Cancelar
             </Link>
-            <button
-              type="submit"
-              className="h-11 px-6 rounded-lg bg-primary hover:bg-primary-hover transition text-sm font-semibold text-primary-foreground"
-            >
-              Criar campeonato
-            </button>
+            <Link to="/dashboard" type="submit">
+              <button
+                type="submit"
+                className="h-11 px-6 rounded-lg bg-primary hover:bg-primary-hover transition text-sm font-semibold text-primary-foreground"
+              >
+                Criar campeonato
+              </button>
+            </Link>
           </div>
         </form>
       </main>

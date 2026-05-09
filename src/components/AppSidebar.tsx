@@ -1,7 +1,16 @@
 import { Link, useRouterState } from "@tanstack/react-router";
 import {
-  LayoutDashboard, Trophy, Dumbbell, Swords, ClipboardList,
-  Users, Rss, BarChart3, Bell, Settings, LogOut
+  BarChart3,
+  Bell,
+  ClipboardList,
+  Dumbbell,
+  LayoutDashboard,
+  LogOut,
+  Rss,
+  Settings,
+  Swords,
+  Trophy,
+  Users,
 } from "lucide-react";
 
 const items = [
@@ -26,7 +35,6 @@ export function AppSidebar() {
       <aside className="hidden lg:flex fixed left-0 top-0 h-screen w-[230px] flex-col bg-sidebar border-r border-border z-40">
         <Link to="/" className="flex items-center gap-2 px-6 h-16 border-b border-border">
           <span className="font-display text-2xl text-foreground tracking-wider">NEXTLIGA</span>
-          <span className="w-2 h-2 rounded-full bg-gold" />
         </Link>
         <nav className="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
           {items.map((it) => {
