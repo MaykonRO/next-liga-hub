@@ -80,6 +80,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "NextLiga — Gestão de Campeonatos" },
+      { name: "twitter:description", content: "Plataforma completa para gerenciar campeonatos esportivos com precisão." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/097417ce-6dbb-434a-8e41-dd9a84dd4c94/id-preview-2dffe75e--bdd668b9-896c-4c8f-b8ed-1bd15b44b70d.lovable.app-1778544406394.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/097417ce-6dbb-434a-8e41-dd9a84dd4c94/id-preview-2dffe75e--bdd668b9-896c-4c8f-b8ed-1bd15b44b70d.lovable.app-1778544406394.png" },
     ],
     links: [
       {
