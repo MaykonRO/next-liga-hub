@@ -1,14 +1,25 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
-  Trophy, Users, BarChart3, Bell, Calendar, Shield,
-  ArrowRight, Check, Activity
+  Activity,
+  ArrowRight,
+  BarChart3,
+  Bell,
+  Calendar,
+  Check,
+  Shield,
+  Trophy,
+  Users,
 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "NextLiga — Gerencie campeonatos esportivos" },
-      { name: "description", content: "Plataforma completa para organizar, acompanhar e viver campeonatos esportivos com precisão." },
+      {
+        name: "description",
+        content:
+          "Plataforma completa para organizar, acompanhar e viver campeonatos esportivos com precisão.",
+      },
     ],
   }),
   component: Landing,
@@ -25,15 +36,21 @@ function Landing() {
             <span className="w-2 h-2 rounded-full bg-gold" />
           </Link>
           <nav className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
-            <a href="#features" className="hover:text-foreground transition">Recursos</a>
-            <a href="#roles" className="hover:text-foreground transition">Para quem</a>
-            <a href="#how" className="hover:text-foreground transition">Como funciona</a>
+            <a href="#features" className="hover:text-foreground transition">
+              Recursos
+            </a>
+            <a href="#roles" className="hover:text-foreground transition">
+              Para quem
+            </a>
+            <a href="#how" className="hover:text-foreground transition">
+              Como funciona
+            </a>
           </nav>
           <Link
-            to="/dashboard"
+            to="/cadastro"
             className="px-4 h-9 rounded-lg bg-primary hover:bg-primary-hover transition flex items-center gap-2 text-sm font-medium"
           >
-            Criar campeonato <ArrowRight className="w-4 h-4" />
+            Conheça o NextLiga <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
       </header>
@@ -49,26 +66,58 @@ function Landing() {
               247 campeonatos ao vivo agora
             </span>
             <h1 className="font-display text-5xl md:text-6xl lg:text-7xl leading-[0.95] mb-6">
-              GERENCIE SEUS<br />CAMPEONATOS<br />
+              GERENCIE SEUS
+              <br />
+              CAMPEONATOS
+              <br />
               <span className="text-gold">COM PRECISÃO</span>
             </h1>
             <p className="text-muted-foreground text-lg mb-8 max-w-md">
-              A plataforma definitiva para organizadores e atletas. Inscrições, chaveamento, resultados e classificação — tudo em tempo real.
+              A plataforma definitiva para organizadores e atletas. Inscrições, chaveamento,
+              resultados e classificação — tudo em tempo real.
             </p>
             <div className="flex flex-wrap gap-3">
-              <Link to="/dashboard" className="px-6 h-12 rounded-lg bg-primary hover:bg-primary-hover transition flex items-center gap-2 font-medium">
+              <Link
+                to="/campeonatos/novo"
+                className="px-6 h-12 rounded-lg bg-primary hover:bg-primary-hover transition flex items-center gap-2 font-medium"
+              >
                 Começar grátis <ArrowRight className="w-4 h-4" />
               </Link>
-              <Link to="/campeonatos/$id/publico" params={{ id: "demo" }} className="px-6 h-12 rounded-lg border border-border hover:border-primary/40 transition flex items-center gap-2 font-medium">
+              <Link
+                to="/campeonatos/$id/publico"
+                params={{ id: "demo" }}
+                className="px-6 h-12 rounded-lg border border-border hover:border-primary/40 transition flex items-center gap-2 font-medium"
+              >
                 Ver campeonato demo
               </Link>
             </div>
           </div>
 
           <div className="relative h-[420px] hidden lg:block">
-            <FloatingStat top="10%" right="0" icon={Users} label="Atletas" value="48.291" color="primary" />
-            <FloatingStat top="42%" right="20%" icon={Trophy} label="Campeonatos ativos" value="1.284" color="gold" />
-            <FloatingStat top="72%" right="5%" icon={Activity} label="Uptime" value="99.97%" color="success" />
+            <FloatingStat
+              top="10%"
+              right="0"
+              icon={Users}
+              label="Atletas"
+              value="48.291"
+              color="primary"
+            />
+            <FloatingStat
+              top="42%"
+              right="20%"
+              icon={Trophy}
+              label="Campeonatos ativos"
+              value="1.284"
+              color="gold"
+            />
+            <FloatingStat
+              top="72%"
+              right="5%"
+              icon={Activity}
+              label="Uptime"
+              value="99.97%"
+              color="success"
+            />
           </div>
         </div>
       </section>
@@ -78,11 +127,16 @@ function Landing() {
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="font-display text-4xl md:text-5xl mb-3">TUDO QUE VOCÊ PRECISA</h2>
-            <p className="text-muted-foreground">Recursos pensados para times profissionais e amadores.</p>
+            <p className="text-muted-foreground">
+              Recursos pensados para times profissionais e amadores.
+            </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {features.map((f) => (
-              <div key={f.title} className="p-6 rounded-2xl bg-surface border border-border card-hover">
+              <div
+                key={f.title}
+                className="p-6 rounded-2xl bg-surface border border-border card-hover"
+              >
                 <div className="w-11 h-11 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center mb-4">
                   <f.icon className="w-5 h-5 text-[#5b87ff]" />
                 </div>
@@ -100,12 +154,24 @@ function Landing() {
           <RoleCard
             color="primary"
             title="Para Organizadores"
-            features={["Criar campeonatos ilimitados", "Chaveamento automático", "Aprovar inscrições", "Notificar equipes em massa", "Estatísticas detalhadas"]}
+            features={[
+              "Criar campeonatos ilimitados",
+              "Chaveamento automático",
+              "Aprovar inscrições",
+              "Notificar equipes em massa",
+              "Estatísticas detalhadas",
+            ]}
           />
           <RoleCard
             color="gold"
             title="Para Atletas"
-            features={["Inscrição em poucos cliques", "Acompanhar partidas ao vivo", "Classificação atualizada", "Feed de fotos e vídeos", "Notificações personalizadas"]}
+            features={[
+              "Inscrição em poucos cliques",
+              "Acompanhar partidas ao vivo",
+              "Classificação atualizada",
+              "Feed de fotos e vídeos",
+              "Notificações personalizadas",
+            ]}
           />
         </div>
       </section>
@@ -140,15 +206,22 @@ function Landing() {
           <div className="p-8 lg:p-12 rounded-3xl bg-gradient-to-br from-surface to-background border border-border text-center relative overflow-hidden">
             <div className="absolute inset-0 grid-bg opacity-50" />
             <div className="relative">
-              <h2 className="font-display text-4xl md:text-5xl mb-4">PRONTO PRA <span className="text-gold">COMEÇAR?</span></h2>
-              <p className="text-muted-foreground mb-8">Receba acesso antecipado e dicas de organização.</p>
+              <h2 className="font-display text-4xl md:text-5xl mb-4">
+                PRONTO PRA <span className="text-gold">COMEÇAR?</span>
+              </h2>
+              <p className="text-muted-foreground mb-8">
+                Receba acesso antecipado e dicas de organização.
+              </p>
               <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
                 <input
                   type="email"
                   placeholder="seu@email.com"
                   className="flex-1 h-12 px-4 rounded-lg bg-input border border-border focus:border-primary outline-none text-sm"
                 />
-                <button type="button" className="h-12 px-6 rounded-lg bg-gold hover:bg-gold/90 transition font-semibold text-background">
+                <button
+                  type="button"
+                  className="h-12 px-6 rounded-lg bg-gold hover:bg-gold/90 transition font-semibold text-background"
+                >
                   Quero acesso
                 </button>
               </form>
@@ -181,7 +254,9 @@ function FloatingStat({ top, right, icon: Icon, label, value, color }: any) {
       className="absolute p-5 rounded-2xl bg-surface/90 backdrop-blur border border-border card-hover w-56"
       style={{ top, right }}
     >
-      <div className={`w-10 h-10 rounded-lg border ${colorMap[color]} flex items-center justify-center mb-3`}>
+      <div
+        className={`w-10 h-10 rounded-lg border ${colorMap[color]} flex items-center justify-center mb-3`}
+      >
         <Icon className="w-5 h-5" />
       </div>
       <div className="font-display text-3xl">{value}</div>
@@ -190,7 +265,15 @@ function FloatingStat({ top, right, icon: Icon, label, value, color }: any) {
   );
 }
 
-function RoleCard({ color, title, features }: { color: "primary" | "gold"; title: string; features: string[] }) {
+function RoleCard({
+  color,
+  title,
+  features,
+}: {
+  color: "primary" | "gold";
+  title: string;
+  features: string[];
+}) {
   const border = color === "primary" ? "border-primary/40" : "border-gold/40";
   const dot = color === "primary" ? "text-[#5b87ff]" : "text-gold";
   return (
@@ -209,12 +292,36 @@ function RoleCard({ color, title, features }: { color: "primary" | "gold"; title
 }
 
 const features = [
-  { icon: Trophy, title: "Chaveamento automático", desc: "Eliminatórias, grupos ou pontos corridos com um clique." },
-  { icon: Calendar, title: "Cronograma inteligente", desc: "Agende partidas considerando disponibilidade de quadras." },
-  { icon: BarChart3, title: "Estatísticas em tempo real", desc: "Artilharia, classificação e desempenho atualizados." },
-  { icon: Bell, title: "Notificações", desc: "Alertas push para equipes, atletas e organizadores." },
-  { icon: Shield, title: "Aprovação de inscrições", desc: "Valide equipes, atletas e documentos sem fricção." },
-  { icon: Users, title: "Feed da comunidade", desc: "Fotos, vídeos e momentos do campeonato em um só lugar." },
+  {
+    icon: Trophy,
+    title: "Chaveamento automático",
+    desc: "Eliminatórias, grupos ou pontos corridos com um clique.",
+  },
+  {
+    icon: Calendar,
+    title: "Cronograma inteligente",
+    desc: "Agende partidas considerando disponibilidade de quadras.",
+  },
+  {
+    icon: BarChart3,
+    title: "Estatísticas em tempo real",
+    desc: "Artilharia, classificação e desempenho atualizados.",
+  },
+  {
+    icon: Bell,
+    title: "Notificações",
+    desc: "Alertas push para equipes, atletas e organizadores.",
+  },
+  {
+    icon: Shield,
+    title: "Aprovação de inscrições",
+    desc: "Valide equipes, atletas e documentos sem fricção.",
+  },
+  {
+    icon: Users,
+    title: "Feed da comunidade",
+    desc: "Fotos, vídeos e momentos do campeonato em um só lugar.",
+  },
 ];
 
 const steps = [

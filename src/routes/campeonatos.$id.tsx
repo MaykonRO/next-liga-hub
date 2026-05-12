@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { AppShell } from "@/components/AppShell";
 import { Topbar } from "@/components/Topbar";
 import { StatusPill } from "@/components/StatusPill";
+import { VisaoGeralCampeonato } from "@/components/VisaoGeralCampeonato";
 import { ChevronRight, FileDown, Send, Trophy } from "lucide-react";
 import { useState } from "react";
 
@@ -19,7 +20,7 @@ const tabs = ["Visão geral", "Chaveamento", "Classificação", "Equipes", "Cron
 
 function ChampDetail() {
   const { id } = Route.useParams();
-  const [tab, setTab] = useState("Chaveamento");
+  const [tab, setTab] = useState("Visão geral");
   const [scoreA, setScoreA] = useState("");
   const [scoreB, setScoreB] = useState("");
 
@@ -68,74 +69,87 @@ function ChampDetail() {
           ))}
         </div>
 
-        {/* Quick score entry */}
-        <div className="rounded-2xl bg-surface border border-border p-5">
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <p className="text-xs text-muted-foreground">Próxima partida</p>
-              <h3 className="font-semibold">Tigres FC vs Águias SC</h3>
-            </div>
-            <span className="font-display text-lg text-gold">14:00</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <input value={scoreA} onChange={(e) => setScoreA(e.target.value)} type="number" placeholder="0" className="w-20 h-12 rounded-lg bg-input border border-border focus:border-primary outline-none text-center font-display text-2xl" />
-            <span className="text-muted-foreground">×</span>
-            <input value={scoreB} onChange={(e) => setScoreB(e.target.value)} type="number" placeholder="0" className="w-20 h-12 rounded-lg bg-input border border-border focus:border-primary outline-none text-center font-display text-2xl" />
-            <button className="ml-auto h-12 px-5 rounded-lg bg-primary hover:bg-primary-hover text-sm font-medium">Confirmar placar</button>
-          </div>
-        </div>
+        {/* Tab content */}
+        {tab === "Visão geral" && <VisaoGeralCampeonato />}
 
-        {/* Bracket */}
-        <div className="rounded-2xl bg-surface border border-border p-5 lg:p-8 overflow-x-auto scroll-hide">
-          <div className="flex gap-6 lg:gap-12 min-w-[800px]">
-            <BracketCol title="Quartas de final" matches={quarters} />
-            <BracketCol title="Semifinais" matches={semis} />
-            <BracketCol title="Final" matches={finals} isFinal />
-          </div>
-        </div>
-
-        {/* Bottom panels */}
-        <div className="grid lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-2 rounded-2xl bg-surface border border-border overflow-hidden">
-            <div className="p-5 border-b border-border flex items-center gap-2">
-              <Trophy className="w-4 h-4 text-gold" />
-              <h3 className="font-semibold">Artilharia</h3>
+        {tab === "Chaveamento" && (
+          <>
+            {/* Quick score entry */}
+            <div className="rounded-2xl bg-surface border border-border p-5">
+              <div className="flex items-center justify-between mb-4">
+                <div>
+                  <p className="text-xs text-muted-foreground">Próxima partida</p>
+                  <h3 className="font-semibold">Tigres FC vs Águias SC</h3>
+                </div>
+                <span className="font-display text-lg text-gold">14:00</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <input value={scoreA} onChange={(e) => setScoreA(e.target.value)} type="number" placeholder="0" className="w-20 h-12 rounded-lg bg-input border border-border focus:border-primary outline-none text-center font-display text-2xl" />
+                <span className="text-muted-foreground">×</span>
+                <input value={scoreB} onChange={(e) => setScoreB(e.target.value)} type="number" placeholder="0" className="w-20 h-12 rounded-lg bg-input border border-border focus:border-primary outline-none text-center font-display text-2xl" />
+                <button className="ml-auto h-12 px-5 rounded-lg bg-primary hover:bg-primary-hover text-sm font-medium">Confirmar placar</button>
+              </div>
             </div>
-            <table className="w-full text-sm">
-              <thead className="text-xs text-muted-foreground bg-background/40">
-                <tr>
-                  <th className="text-left font-medium px-5 py-3">#</th>
-                  <th className="text-left font-medium px-3 py-3">Atleta</th>
-                  <th className="text-left font-medium px-3 py-3">Equipe</th>
-                  <th className="text-right font-medium px-5 py-3">Gols</th>
-                </tr>
-              </thead>
-              <tbody>
-                {scorers.map((s, i) => (
-                  <tr key={s.name} className="border-t border-border">
-                    <td className="px-5 py-3 font-display text-lg" style={{ color: i === 0 ? "var(--gold)" : undefined }}>{i + 1}</td>
-                    <td className="px-3 py-3">{s.name}</td>
-                    <td className="px-3 py-3 text-muted-foreground">{s.team}</td>
-                    <td className="px-5 py-3 text-right font-display text-xl">{s.goals}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+
+            {/* Bracket */}
+            <div className="rounded-2xl bg-surface border border-border p-5 lg:p-8 overflow-x-auto scroll-hide">
+              <div className="flex gap-6 lg:gap-12 min-w-[800px]">
+                <BracketCol title="Quartas de final" matches={quarters} />
+                <BracketCol title="Semifinais" matches={semis} />
+                <BracketCol title="Final" matches={finals} isFinal />
+              </div>
+            </div>
+
+            {/* Bottom panels */}
+            <div className="grid lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-2 rounded-2xl bg-surface border border-border overflow-hidden">
+                <div className="p-5 border-b border-border flex items-center gap-2">
+                  <Trophy className="w-4 h-4 text-gold" />
+                  <h3 className="font-semibold">Artilharia</h3>
+                </div>
+                <table className="w-full text-sm">
+                  <thead className="text-xs text-muted-foreground bg-background/40">
+                    <tr>
+                      <th className="text-left font-medium px-5 py-3">#</th>
+                      <th className="text-left font-medium px-3 py-3">Atleta</th>
+                      <th className="text-left font-medium px-3 py-3">Equipe</th>
+                      <th className="text-right font-medium px-5 py-3">Gols</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {scorers.map((s, i) => (
+                      <tr key={s.name} className="border-t border-border">
+                        <td className="px-5 py-3 font-display text-lg" style={{ color: i === 0 ? "var(--gold)" : undefined }}>{i + 1}</td>
+                        <td className="px-3 py-3">{s.name}</td>
+                        <td className="px-3 py-3 text-muted-foreground">{s.team}</td>
+                        <td className="px-5 py-3 text-right font-display text-xl">{s.goals}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="rounded-2xl bg-surface border border-border p-5">
+                <h3 className="font-semibold mb-4">Informações</h3>
+                <dl className="space-y-3 text-sm">
+                  <div><dt className="text-xs text-muted-foreground">Modalidade</dt><dd>Futebol Society</dd></div>
+                  <div><dt className="text-xs text-muted-foreground">Formato</dt><dd>Eliminatória simples</dd></div>
+                  <div><dt className="text-xs text-muted-foreground">Local</dt><dd>Arena Esportiva Central</dd></div>
+                  <div><dt className="text-xs text-muted-foreground">Equipes</dt><dd>32 inscritas</dd></div>
+                  <div><dt className="text-xs text-muted-foreground">Premiação</dt><dd className="text-gold">R$ 25.000</dd></div>
+                </dl>
+                <Link to="/campeonatos/$id/publico" params={{ id }} className="mt-4 block text-center h-10 rounded-lg border border-border hover:border-primary/40 text-xs font-medium leading-10">
+                  Ver página pública
+                </Link>
+              </div>
+            </div>
+          </>
+        )}
+
+        {!["Visão geral", "Chaveamento"].includes(tab) && (
+          <div className="rounded-2xl bg-surface border border-border p-10 text-center text-sm text-muted-foreground">
+            Conteúdo de "{tab}" em breve.
           </div>
-          <div className="rounded-2xl bg-surface border border-border p-5">
-            <h3 className="font-semibold mb-4">Informações</h3>
-            <dl className="space-y-3 text-sm">
-              <div><dt className="text-xs text-muted-foreground">Modalidade</dt><dd>Futebol Society</dd></div>
-              <div><dt className="text-xs text-muted-foreground">Formato</dt><dd>Eliminatória simples</dd></div>
-              <div><dt className="text-xs text-muted-foreground">Local</dt><dd>Arena Esportiva Central</dd></div>
-              <div><dt className="text-xs text-muted-foreground">Equipes</dt><dd>32 inscritas</dd></div>
-              <div><dt className="text-xs text-muted-foreground">Premiação</dt><dd className="text-gold">R$ 25.000</dd></div>
-            </dl>
-            <Link to="/campeonatos/$id/publico" params={{ id }} className="mt-4 block text-center h-10 rounded-lg border border-border hover:border-primary/40 text-xs font-medium leading-10">
-              Ver página pública
-            </Link>
-          </div>
-        </div>
+        )}
       </main>
     </AppShell>
   );
