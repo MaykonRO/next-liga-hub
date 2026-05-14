@@ -1,6 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 
 export const Route = createFileRoute("/cadastro")({
@@ -15,8 +22,87 @@ export const Route = createFileRoute("/cadastro")({
   component: RegisterPage,
 });
 
+const MODALIDADES = ["Vôlei", "Futebol", "Basquete", "Tênis de mesa"] as const;
+const LADOS = ["Esquerda", "Direita", "Ambidestro"] as const;
+
+type FormState = {
+  name: string;
+  email: string;
+  password: string;
+  confirm: string;
+  modalidade: string;
+  altura: string;
+  peso: string;
+  lado: string;
+};
+
+type Errors = Partial<Record<keyof FormState, string>>;
+
+const inputCls =
+  "h-11 bg-input border-border text-foreground placeholder:text-muted-foreground focus-visible:ring-primary focus-visible:border-primary";
+
 function RegisterPage() {
-  const [role, setRole] = useState<"organizador" | "atleta">("organizador");
+  const navigate = useNavigate();
+  const [form, setForm] = useState<FormState>({
+    name: "",
+    email: "",
+    password: "",
+    confirm: "",
+    modalidade: "",
+    altura: "",
+    peso: "",
+    lado: "",
+  });
+  const [errors, setErrors] = useState<Errors>({});
+
+  const set = <K extends keyof FormState>(key: K, value: FormState[K]) => {
+    setForm((f) => ({ ...f, [key]: value }));
+    setErrors((e) => ({ ...e, [key]: undefined }));
+  };
+
+  const validate = (): Errors => {
+    const e: Errors = {};
+    if (!form.name.trim()) e.name = "Informe seu nome completo.";
+    if (!form.email.trim()) e.email = "Informe seu e-mail.";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
+      e.email = "E-mail inválido.";
+    if (!form.password) e.password = "Informe uma senha.";
+    else if (form.password.length < 6) e.password = "A senha deve ter ao menos 6 caracteres.";
+    if (!form.confirm) e.confirm = "Confirme sua senha.";
+    else if (form.confirm !== form.password) e.confirm = "As senhas não coincidem.";
+
+    if (!form.modalidade) e.modalidade = "Selecione uma modalidade.";
+
+    const altura = parseFloat(form.altura.replace(",", "."));
+    if (!form.altura) e.altura = "Informe sua altura em centímetros.";
+    else if (Number.isNaN(altura) || altura <= 0) e.altura = "Altura inválida.";
+    else if (altura < 50 || altura > 280) e.altura = "Altura deve estar entre 50 e 280 cm.";
+
+    const peso = parseFloat(form.peso.replace(",", "."));
+    if (!form.peso) e.peso = "Informe seu peso em quilogramas.";
+    else if (Number.isNaN(peso) || peso <= 0) e.peso = "Peso inválido.";
+    else if (peso < 20 || peso > 400) e.peso = "Peso deve estar entre 20 e 400 kg.";
+
+    if (!form.lado) e.lado = "Selecione o lado dominante.";
+
+    return e;
+  };
+
+  const onSubmit = (ev: React.FormEvent) => {
+    ev.preventDefault();
+    const e = validate();
+    setErrors(e);
+    if (Object.keys(e).length === 0) {
+      navigate({ to: "/dashboard" });
+    }
+  };
+
+  const errMsg = (k: keyof FormState) =>
+    errors[k] ? (
+      <p className="text-xs text-destructive mt-1" role="alert">
+        {errors[k]}
+      </p>
+    ) : null;
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-background px-4 py-10">
@@ -30,7 +116,7 @@ function RegisterPage() {
           Comece a gerenciar campeonatos hoje
         </p>
 
-        <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+        <form className="space-y-4" onSubmit={onSubmit} noValidate>
           <div className="space-y-2">
             <label htmlFor="name" className="text-sm text-foreground">
               Nome completo
@@ -39,8 +125,12 @@ function RegisterPage() {
               id="name"
               type="text"
               placeholder="Seu nome"
-              className="h-11 bg-input border-border text-foreground placeholder:text-muted-foreground focus-visible:ring-primary focus-visible:border-primary"
+              value={form.name}
+              onChange={(e) => set("name", e.target.value)}
+              aria-invalid={!!errors.name}
+              className={inputCls}
             />
+            {errMsg("name")}
           </div>
 
           <div className="space-y-2">
@@ -51,42 +141,144 @@ function RegisterPage() {
               id="email"
               type="email"
               placeholder="voce@email.com"
-              className="h-11 bg-input border-border text-foreground placeholder:text-muted-foreground focus-visible:ring-primary focus-visible:border-primary"
+              value={form.email}
+              onChange={(e) => set("email", e.target.value)}
+              aria-invalid={!!errors.email}
+              className={inputCls}
             />
+            {errMsg("email")}
           </div>
 
-          <div className="space-y-2">
-            <label htmlFor="password" className="text-sm text-foreground">
-              Senha
-            </label>
-            <Input
-              id="password"
-              type="password"
-              placeholder="••••••••"
-              className="h-11 bg-input border-border text-foreground placeholder:text-muted-foreground focus-visible:ring-primary focus-visible:border-primary"
-            />
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <label htmlFor="password" className="text-sm text-foreground">
+                Senha
+              </label>
+              <Input
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                value={form.password}
+                onChange={(e) => set("password", e.target.value)}
+                aria-invalid={!!errors.password}
+                className={inputCls}
+              />
+              {errMsg("password")}
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="confirm" className="text-sm text-foreground">
+                Confirmar senha
+              </label>
+              <Input
+                id="confirm"
+                type="password"
+                placeholder="••••••••"
+                value={form.confirm}
+                onChange={(e) => set("confirm", e.target.value)}
+                aria-invalid={!!errors.confirm}
+                className={inputCls}
+              />
+              {errMsg("confirm")}
+            </div>
           </div>
 
-          <div className="space-y-2">
-            <label htmlFor="confirm" className="text-sm text-foreground">
-              Confirmar senha
-            </label>
-            <Input
-              id="confirm"
-              type="password"
-              placeholder="••••••••"
-              className="h-11 bg-input border-border text-foreground placeholder:text-muted-foreground focus-visible:ring-primary focus-visible:border-primary"
-            />
+          <div className="pt-2">
+            <p className="text-xs uppercase tracking-wider text-muted-foreground mb-3">
+              Perfil esportivo
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label htmlFor="modalidade" className="text-sm text-foreground">
+                  Modalidade favorita
+                </label>
+                <Select value={form.modalidade} onValueChange={(v) => set("modalidade", v)}>
+                  <SelectTrigger
+                    id="modalidade"
+                    aria-invalid={!!errors.modalidade}
+                    className={inputCls}
+                  >
+                    <SelectValue placeholder="Selecione uma modalidade" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {MODALIDADES.map((m) => (
+                      <SelectItem key={m} value={m}>
+                        {m}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {errMsg("modalidade")}
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="lado" className="text-sm text-foreground">
+                  Lado dominante
+                </label>
+                <Select value={form.lado} onValueChange={(v) => set("lado", v)}>
+                  <SelectTrigger id="lado" aria-invalid={!!errors.lado} className={inputCls}>
+                    <SelectValue placeholder="Selecione o lado dominante" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {LADOS.map((l) => (
+                      <SelectItem key={l} value={l}>
+                        {l}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                {errMsg("lado")}
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="altura" className="text-sm text-foreground">
+                  Altura (cm)
+                </label>
+                <Input
+                  id="altura"
+                  type="number"
+                  inputMode="decimal"
+                  step="0.1"
+                  min="50"
+                  max="280"
+                  placeholder="Ex.: 178.5"
+                  value={form.altura}
+                  onChange={(e) => set("altura", e.target.value)}
+                  aria-invalid={!!errors.altura}
+                  className={inputCls}
+                />
+                {errMsg("altura")}
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="peso" className="text-sm text-foreground">
+                  Peso (kg)
+                </label>
+                <Input
+                  id="peso"
+                  type="number"
+                  inputMode="decimal"
+                  step="0.1"
+                  min="20"
+                  max="400"
+                  placeholder="Ex.: 72.4"
+                  value={form.peso}
+                  onChange={(e) => set("peso", e.target.value)}
+                  aria-invalid={!!errors.peso}
+                  className={inputCls}
+                />
+                {errMsg("peso")}
+              </div>
+            </div>
           </div>
 
-          <Link to="/dashboard" type="submit">
-            <Button
-              type="submit"
-              className="w-full h-11 bg-primary hover:bg-primary-hover text-primary-foreground font-medium"
-            >
-              Criar conta
-            </Button>
-          </Link>
+          <Button
+            type="submit"
+            className="w-full h-11 bg-primary hover:bg-primary-hover text-primary-foreground font-medium"
+          >
+            Criar conta
+          </Button>
         </form>
 
         <div className="mt-8 pt-6 border-t border-border text-center">
