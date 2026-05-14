@@ -5,7 +5,13 @@ import { StatusPill } from "@/components/StatusPill";
 import { useState } from "react";
 import { X, Check, Search } from "lucide-react";
 
+type InscricoesSearch = { campeonato?: string; equipe?: string };
+
 export const Route = createFileRoute("/inscricoes")({
+  validateSearch: (search: Record<string, unknown>): InscricoesSearch => ({
+    campeonato: typeof search.campeonato === "string" ? search.campeonato : undefined,
+    equipe: typeof search.equipe === "string" ? search.equipe : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "Inscrições — NextLiga" },
