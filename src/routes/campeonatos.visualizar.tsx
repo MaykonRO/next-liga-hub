@@ -133,6 +133,65 @@ function VisualizarCampeonato() {
           </div>
         )}
       </main>
+
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="bg-surface border-border sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Confirmar inscrição</DialogTitle>
+            <DialogDescription>
+              Deseja realmente se inscrever neste campeonato?
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-2">
+            <label htmlFor="team-select" className="text-sm font-medium">
+              Selecionar equipe <span className="text-destructive">*</span>
+            </label>
+            <select
+              id="team-select"
+              value={team}
+              onChange={(e) => {
+                setTeam(e.target.value);
+                if (e.target.value) setError("");
+              }}
+              aria-invalid={!!error}
+              aria-describedby={error ? "team-error" : undefined}
+              className="w-full h-11 px-3 rounded-lg bg-input border border-border focus:border-primary outline-none text-sm"
+            >
+              <option value="">Selecione uma equipe...</option>
+              {AVAILABLE_TEAMS.map((t) => (
+                <option key={t} value={t}>
+                  {t}
+                </option>
+              ))}
+            </select>
+            {error && (
+              <p id="team-error" className="text-xs text-destructive">
+                {error}
+              </p>
+            )}
+          </div>
+
+          <DialogFooter className="gap-2 sm:gap-2">
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              disabled={loading}
+              className="h-10 px-4 rounded-lg border border-border hover:border-primary/40 text-sm font-medium disabled:opacity-50"
+            >
+              Cancelar
+            </button>
+            <button
+              type="button"
+              onClick={handleConfirm}
+              disabled={loading}
+              className="h-10 px-4 rounded-lg bg-primary hover:bg-primary-hover text-sm font-medium disabled:opacity-50"
+            >
+              {loading ? "Confirmando..." : "Confirmar"}
+            </button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </AppShell>
   );
 }
