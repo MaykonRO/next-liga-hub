@@ -2,9 +2,27 @@ import { AppShell } from "@/components/AppShell";
 import { StatusPill } from "@/components/StatusPill";
 import { Topbar } from "@/components/Topbar";
 import { VisaoGeralCampeonato } from "@/components/VisaoGeralCampeonato";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ChevronRight } from "lucide-react";
 import { useState } from "react";
+
+const CHAMPIONSHIP_NAME = "Copa Verão 2026";
+const AVAILABLE_TEAMS = [
+  "Tigres FC",
+  "Águias SC",
+  "Leões United",
+  "Cobras EC",
+  "Falcões FC",
+  "Pumas Atlético",
+];
 
 export const Route = createFileRoute("/campeonatos/visualizar")({
   head: () => ({
