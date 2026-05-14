@@ -2,9 +2,27 @@ import { AppShell } from "@/components/AppShell";
 import { StatusPill } from "@/components/StatusPill";
 import { Topbar } from "@/components/Topbar";
 import { VisaoGeralCampeonato } from "@/components/VisaoGeralCampeonato";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { ChevronRight } from "lucide-react";
 import { useState } from "react";
+
+const CHAMPIONSHIP_NAME = "Copa Verão 2026";
+const AVAILABLE_TEAMS = [
+  "Tigres FC",
+  "Águias SC",
+  "Leões United",
+  "Cobras EC",
+  "Falcões FC",
+  "Pumas Atlético",
+];
 
 export const Route = createFileRoute("/campeonatos/visualizar")({
   head: () => ({
@@ -20,13 +38,45 @@ const TABS = ["Visão geral", "Chaveamento", "Equipes", "Cronograma", "Estatíst
 
 function VisualizarCampeonato() {
   const [tab, setTab] = useState("Visão geral");
+  const [open, setOpen] = useState(false);
+  const [team, setTeam] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  function openModal() {
+    setTeam("");
+    setError("");
+    setOpen(true);
+  }
+
+  async function handleConfirm() {
+    if (!team) {
+      setError("Selecione uma equipe para continuar.");
+      return;
+    }
+    setLoading(true);
+    await new Promise((r) => setTimeout(r, 400));
+    setLoading(false);
+    setOpen(false);
+    navigate({
+      to: "/inscricoes",
+      search: { campeonato: CHAMPIONSHIP_NAME, equipe: team },
+    });
+  }
 
   const action = (
     <div className="flex items-center gap-2">
       <button className="h-9 px-3 lg:px-4 rounded-lg border border-border hover:border-primary/40 text-xs font-medium">
         Editar
       </button>
-      <button className="h-9 px-3 lg:px-4 rounded-lg bg-primary hover:bg-primary-hover text-xs font-medium">
+      <button
+        onClick={openModal}
+        className="h-9 px-3 lg:px-4 rounded-lg bg-primary hover:bg-primary-hover text-xs font-medium"
+      >
+        Inscrever-se
+      </button>
+      <button className="h-9 px-3 lg:px-4 rounded-lg border border-border hover:border-primary/40 text-xs font-medium">
         Registrar resultado
       </button>
     </div>
@@ -83,6 +133,65 @@ function VisualizarCampeonato() {
           </div>
         )}
       </main>
+
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="bg-surface border-border sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Confirmar inscrição</DialogTitle>
+            <DialogDescription>
+              Deseja realmente se inscrever neste campeonato?
+            </DialogDescription>
+          </DialogHeader>
+
+          <div className="space-y-2">
+            <label htmlFor="team-select" className="text-sm font-medium">
+              Selecionar equipe <span className="text-destructive">*</span>
+            </label>
+            <select
+              id="team-select"
+              value={team}
+              onChange={(e) => {
+                setTeam(e.target.value);
+                if (e.target.value) setError("");
+              }}
+              aria-invalid={!!error}
+              aria-describedby={error ? "team-error" : undefined}
+              className="w-full h-11 px-3 rounded-lg bg-input border border-border focus:border-primary outline-none text-sm"
+            >
+              <option value="">Selecione uma equipe...</option>
+              {AVAILABLE_TEAMS.map((t) => (
+                <option key={t} value={t}>
+                  {t}
+                </option>
+              ))}
+            </select>
+            {error && (
+              <p id="team-error" className="text-xs text-destructive">
+                {error}
+              </p>
+            )}
+          </div>
+
+          <DialogFooter className="gap-2 sm:gap-2">
+            <button
+              type="button"
+              onClick={() => setOpen(false)}
+              disabled={loading}
+              className="h-10 px-4 rounded-lg border border-border hover:border-primary/40 text-sm font-medium disabled:opacity-50"
+            >
+              Cancelar
+            </button>
+            <button
+              type="button"
+              onClick={handleConfirm}
+              disabled={loading}
+              className="h-10 px-4 rounded-lg bg-primary hover:bg-primary-hover text-sm font-medium disabled:opacity-50"
+            >
+              {loading ? "Confirmando..." : "Confirmar"}
+            </button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </AppShell>
   );
 }
