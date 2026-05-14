@@ -38,13 +38,45 @@ const TABS = ["Visão geral", "Chaveamento", "Equipes", "Cronograma", "Estatíst
 
 function VisualizarCampeonato() {
   const [tab, setTab] = useState("Visão geral");
+  const [open, setOpen] = useState(false);
+  const [team, setTeam] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+
+  function openModal() {
+    setTeam("");
+    setError("");
+    setOpen(true);
+  }
+
+  async function handleConfirm() {
+    if (!team) {
+      setError("Selecione uma equipe para continuar.");
+      return;
+    }
+    setLoading(true);
+    await new Promise((r) => setTimeout(r, 400));
+    setLoading(false);
+    setOpen(false);
+    navigate({
+      to: "/inscricoes",
+      search: { campeonato: CHAMPIONSHIP_NAME, equipe: team },
+    });
+  }
 
   const action = (
     <div className="flex items-center gap-2">
       <button className="h-9 px-3 lg:px-4 rounded-lg border border-border hover:border-primary/40 text-xs font-medium">
         Editar
       </button>
-      <button className="h-9 px-3 lg:px-4 rounded-lg bg-primary hover:bg-primary-hover text-xs font-medium">
+      <button
+        onClick={openModal}
+        className="h-9 px-3 lg:px-4 rounded-lg bg-primary hover:bg-primary-hover text-xs font-medium"
+      >
+        Inscrever-se
+      </button>
+      <button className="h-9 px-3 lg:px-4 rounded-lg border border-border hover:border-primary/40 text-xs font-medium">
         Registrar resultado
       </button>
     </div>
