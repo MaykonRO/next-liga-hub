@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as InscricoesRouteImport } from './routes/inscricoes'
+import { Route as GerenciarEquipeRouteImport } from './routes/gerenciar-equipe'
 import { Route as FeedRouteImport } from './routes/feed'
 import { Route as EquipesRouteImport } from './routes/equipes'
 import { Route as DashboardRouteImport } from './routes/dashboard'
@@ -30,6 +31,11 @@ const LoginRoute = LoginRouteImport.update({
 const InscricoesRoute = InscricoesRouteImport.update({
   id: '/inscricoes',
   path: '/inscricoes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GerenciarEquipeRoute = GerenciarEquipeRouteImport.update({
+  id: '/gerenciar-equipe',
+  path: '/gerenciar-equipe',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FeedRoute = FeedRouteImport.update({
@@ -89,6 +95,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof DashboardRoute
   '/equipes': typeof EquipesRouteWithChildren
   '/feed': typeof FeedRoute
+  '/gerenciar-equipe': typeof GerenciarEquipeRoute
   '/inscricoes': typeof InscricoesRoute
   '/login': typeof LoginRoute
   '/campeonatos/$id': typeof CampeonatosIdRouteWithChildren
@@ -103,6 +110,7 @@ export interface FileRoutesByTo {
   '/dashboard': typeof DashboardRoute
   '/equipes': typeof EquipesRouteWithChildren
   '/feed': typeof FeedRoute
+  '/gerenciar-equipe': typeof GerenciarEquipeRoute
   '/inscricoes': typeof InscricoesRoute
   '/login': typeof LoginRoute
   '/campeonatos/$id': typeof CampeonatosIdRouteWithChildren
@@ -118,6 +126,7 @@ export interface FileRoutesById {
   '/dashboard': typeof DashboardRoute
   '/equipes': typeof EquipesRouteWithChildren
   '/feed': typeof FeedRoute
+  '/gerenciar-equipe': typeof GerenciarEquipeRoute
   '/inscricoes': typeof InscricoesRoute
   '/login': typeof LoginRoute
   '/campeonatos/$id': typeof CampeonatosIdRouteWithChildren
@@ -134,6 +143,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/equipes'
     | '/feed'
+    | '/gerenciar-equipe'
     | '/inscricoes'
     | '/login'
     | '/campeonatos/$id'
@@ -148,6 +158,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/equipes'
     | '/feed'
+    | '/gerenciar-equipe'
     | '/inscricoes'
     | '/login'
     | '/campeonatos/$id'
@@ -162,6 +173,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/equipes'
     | '/feed'
+    | '/gerenciar-equipe'
     | '/inscricoes'
     | '/login'
     | '/campeonatos/$id'
@@ -177,6 +189,7 @@ export interface RootRouteChildren {
   DashboardRoute: typeof DashboardRoute
   EquipesRoute: typeof EquipesRouteWithChildren
   FeedRoute: typeof FeedRoute
+  GerenciarEquipeRoute: typeof GerenciarEquipeRoute
   InscricoesRoute: typeof InscricoesRoute
   LoginRoute: typeof LoginRoute
   CampeonatosIdRoute: typeof CampeonatosIdRouteWithChildren
@@ -198,6 +211,13 @@ declare module '@tanstack/react-router' {
       path: '/inscricoes'
       fullPath: '/inscricoes'
       preLoaderRoute: typeof InscricoesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gerenciar-equipe': {
+      id: '/gerenciar-equipe'
+      path: '/gerenciar-equipe'
+      fullPath: '/gerenciar-equipe'
+      preLoaderRoute: typeof GerenciarEquipeRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/feed': {
@@ -302,6 +322,7 @@ const rootRouteChildren: RootRouteChildren = {
   DashboardRoute: DashboardRoute,
   EquipesRoute: EquipesRouteWithChildren,
   FeedRoute: FeedRoute,
+  GerenciarEquipeRoute: GerenciarEquipeRoute,
   InscricoesRoute: InscricoesRoute,
   LoginRoute: LoginRoute,
   CampeonatosIdRoute: CampeonatosIdRouteWithChildren,
