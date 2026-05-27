@@ -20,7 +20,7 @@ const items = [
   { to: "/dashboard", label: "Partidas", icon: Swords },
   { to: "/inscricoes", label: "Inscrições", icon: ClipboardList },
   { to: "/dashboard", label: "Equipes", icon: Users },
-  { to: "/dashboard", label: "Feed", icon: Rss },
+  { to: "/feed", label: "Feed", icon: Rss },
   { to: "/dashboard", label: "Estatísticas", icon: BarChart3 },
   { to: "/dashboard", label: "Notificações", icon: Bell },
   { to: "/dashboard", label: "Configurações", icon: Settings },
