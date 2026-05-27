@@ -19,7 +19,7 @@ const items = [
   { to: "/dashboard", label: "Modalidades", icon: Dumbbell },
   { to: "/dashboard", label: "Partidas", icon: Swords },
   { to: "/inscricoes", label: "Inscrições", icon: ClipboardList },
-  { to: "/dashboard", label: "Equipes", icon: Users },
+  { to: "/equipes", label: "Equipes", icon: Users },
   { to: "/feed", label: "Feed", icon: Rss },
   { to: "/dashboard", label: "Estatísticas", icon: BarChart3 },
   { to: "/dashboard", label: "Notificações", icon: Bell },

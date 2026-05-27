@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as InscricoesRouteImport } from './routes/inscricoes'
 import { Route as FeedRouteImport } from './routes/feed'
+import { Route as EquipesRouteImport } from './routes/equipes'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CadastroRouteImport } from './routes/cadastro'
 import { Route as IndexRouteImport } from './routes/index'
@@ -33,6 +34,11 @@ const InscricoesRoute = InscricoesRouteImport.update({
 const FeedRoute = FeedRouteImport.update({
   id: '/feed',
   path: '/feed',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EquipesRoute = EquipesRouteImport.update({
+  id: '/equipes',
+  path: '/equipes',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DashboardRoute = DashboardRouteImport.update({
@@ -75,6 +81,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/cadastro': typeof CadastroRoute
   '/dashboard': typeof DashboardRoute
+  '/equipes': typeof EquipesRoute
   '/feed': typeof FeedRoute
   '/inscricoes': typeof InscricoesRoute
   '/login': typeof LoginRoute
@@ -87,6 +94,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/cadastro': typeof CadastroRoute
   '/dashboard': typeof DashboardRoute
+  '/equipes': typeof EquipesRoute
   '/feed': typeof FeedRoute
   '/inscricoes': typeof InscricoesRoute
   '/login': typeof LoginRoute
@@ -100,6 +108,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/cadastro': typeof CadastroRoute
   '/dashboard': typeof DashboardRoute
+  '/equipes': typeof EquipesRoute
   '/feed': typeof FeedRoute
   '/inscricoes': typeof InscricoesRoute
   '/login': typeof LoginRoute
@@ -114,6 +123,7 @@ export interface FileRouteTypes {
     | '/'
     | '/cadastro'
     | '/dashboard'
+    | '/equipes'
     | '/feed'
     | '/inscricoes'
     | '/login'
@@ -126,6 +136,7 @@ export interface FileRouteTypes {
     | '/'
     | '/cadastro'
     | '/dashboard'
+    | '/equipes'
     | '/feed'
     | '/inscricoes'
     | '/login'
@@ -138,6 +149,7 @@ export interface FileRouteTypes {
     | '/'
     | '/cadastro'
     | '/dashboard'
+    | '/equipes'
     | '/feed'
     | '/inscricoes'
     | '/login'
@@ -151,6 +163,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CadastroRoute: typeof CadastroRoute
   DashboardRoute: typeof DashboardRoute
+  EquipesRoute: typeof EquipesRoute
   FeedRoute: typeof FeedRoute
   InscricoesRoute: typeof InscricoesRoute
   LoginRoute: typeof LoginRoute
@@ -180,6 +193,13 @@ declare module '@tanstack/react-router' {
       path: '/feed'
       fullPath: '/feed'
       preLoaderRoute: typeof FeedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/equipes': {
+      id: '/equipes'
+      path: '/equipes'
+      fullPath: '/equipes'
+      preLoaderRoute: typeof EquipesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard': {
@@ -250,6 +270,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CadastroRoute: CadastroRoute,
   DashboardRoute: DashboardRoute,
+  EquipesRoute: EquipesRoute,
   FeedRoute: FeedRoute,
   InscricoesRoute: InscricoesRoute,
   LoginRoute: LoginRoute,
@@ -260,3 +281,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
