@@ -1,6 +1,6 @@
 import { AppShell } from "@/components/AppShell";
 import { Topbar } from "@/components/Topbar";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { Plus, Users, Trophy } from "lucide-react";
 
 export const Route = createFileRoute("/equipes")({
@@ -47,9 +47,11 @@ function EquipesPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {equipes.map((eq) => (
-            <article
+            <Link
               key={eq.id}
-              className="p-5 rounded-2xl bg-surface border border-border card-hover cursor-pointer"
+              to="/equipes/$id"
+              params={{ id: eq.id }}
+              className="p-5 rounded-2xl bg-surface border border-border card-hover cursor-pointer block hover:border-primary/40 transition-colors"
             >
               <div className="flex items-start gap-4">
                 <div
@@ -80,7 +82,7 @@ function EquipesPage() {
                   </div>
                 </div>
               </div>
-            </article>
+            </Link>
           ))}
         </div>
       </main>
