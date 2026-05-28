@@ -37,13 +37,12 @@ function EquipesPage() {
               {equipes.length} equipes cadastradas na plataforma
             </p>
           </div>
-          <button
-            type="button"
+          <Link to="/equipes/nova"
             className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary hover:bg-primary-hover text-primary-foreground text-sm font-medium transition-colors"
           >
-            <Plus className="w-4 h-4" />
-            Criar equipe
-          </button>
+          <Plus className="w-4 h-4" />
+          Criar equipe
+        </Link>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
