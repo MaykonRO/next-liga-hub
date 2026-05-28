@@ -65,14 +65,14 @@ const EquipesIndexRoute = EquipesIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const EquipesNovaRoute = EquipesNovaRouteImport.update({
-  id: '/nova',
-  path: '/nova',
-  getParentRoute: () => EquipesRoute,
+  id: '/equipes/nova',
+  path: '/equipes/nova',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const EquipesIdRoute = EquipesIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => EquipesRoute,
+  id: '/equipes/$id',
+  path: '/equipes/$id',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const CampeonatosVisualizarRoute = CampeonatosVisualizarRouteImport.update({
   id: '/campeonatos/visualizar',
@@ -206,6 +206,8 @@ export interface RootRouteChildren {
   CampeonatosIdRoute: typeof CampeonatosIdRouteWithChildren
   CampeonatosNovoRoute: typeof CampeonatosNovoRoute
   CampeonatosVisualizarRoute: typeof CampeonatosVisualizarRoute
+  EquipesIdRoute: typeof EquipesIdRoute
+  EquipesNovaRoute: typeof EquipesNovaRoute
   EquipesIndexRoute: typeof EquipesIndexRoute
 }
 
@@ -269,17 +271,17 @@ declare module '@tanstack/react-router' {
     }
     '/equipes/nova': {
       id: '/equipes/nova'
-      path: '/nova'
+      path: '/equipes/nova'
       fullPath: '/equipes/nova'
       preLoaderRoute: typeof EquipesNovaRouteImport
-      parentRoute: typeof EquipesRoute
+      parentRoute: typeof rootRouteImport
     }
     '/equipes/$id': {
       id: '/equipes/$id'
-      path: '/$id'
+      path: '/equipes/$id'
       fullPath: '/equipes/$id'
       preLoaderRoute: typeof EquipesIdRouteImport
-      parentRoute: typeof EquipesRoute
+      parentRoute: typeof rootRouteImport
     }
     '/campeonatos/visualizar': {
       id: '/campeonatos/visualizar'
@@ -335,6 +337,8 @@ const rootRouteChildren: RootRouteChildren = {
   CampeonatosIdRoute: CampeonatosIdRouteWithChildren,
   CampeonatosNovoRoute: CampeonatosNovoRoute,
   CampeonatosVisualizarRoute: CampeonatosVisualizarRoute,
+  EquipesIdRoute: EquipesIdRoute,
+  EquipesNovaRoute: EquipesNovaRoute,
   EquipesIndexRoute: EquipesIndexRoute,
 }
 export const routeTree = rootRouteImport
