@@ -17,6 +17,7 @@ import { Route as EquipesRouteImport } from './routes/equipes'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CadastroRouteImport } from './routes/cadastro'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as EquipesNovaRouteImport } from './routes/equipes.nova'
 import { Route as EquipesIdRouteImport } from './routes/equipes.$id'
 import { Route as CampeonatosVisualizarRouteImport } from './routes/campeonatos.visualizar'
 import { Route as CampeonatosNovoRouteImport } from './routes/campeonatos.novo'
@@ -63,6 +64,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EquipesNovaRoute = EquipesNovaRouteImport.update({
+  id: '/nova',
+  path: '/nova',
+  getParentRoute: () => EquipesRoute,
+} as any)
 const EquipesIdRoute = EquipesIdRouteImport.update({
   id: '/$id',
   path: '/$id',
@@ -102,6 +108,7 @@ export interface FileRoutesByFullPath {
   '/campeonatos/novo': typeof CampeonatosNovoRoute
   '/campeonatos/visualizar': typeof CampeonatosVisualizarRoute
   '/equipes/$id': typeof EquipesIdRoute
+  '/equipes/nova': typeof EquipesNovaRoute
   '/campeonatos/$id/publico': typeof CampeonatosIdPublicoRoute
 }
 export interface FileRoutesByTo {
@@ -117,6 +124,7 @@ export interface FileRoutesByTo {
   '/campeonatos/novo': typeof CampeonatosNovoRoute
   '/campeonatos/visualizar': typeof CampeonatosVisualizarRoute
   '/equipes/$id': typeof EquipesIdRoute
+  '/equipes/nova': typeof EquipesNovaRoute
   '/campeonatos/$id/publico': typeof CampeonatosIdPublicoRoute
 }
 export interface FileRoutesById {
@@ -133,6 +141,7 @@ export interface FileRoutesById {
   '/campeonatos/novo': typeof CampeonatosNovoRoute
   '/campeonatos/visualizar': typeof CampeonatosVisualizarRoute
   '/equipes/$id': typeof EquipesIdRoute
+  '/equipes/nova': typeof EquipesNovaRoute
   '/campeonatos/$id/publico': typeof CampeonatosIdPublicoRoute
 }
 export interface FileRouteTypes {
@@ -150,6 +159,7 @@ export interface FileRouteTypes {
     | '/campeonatos/novo'
     | '/campeonatos/visualizar'
     | '/equipes/$id'
+    | '/equipes/nova'
     | '/campeonatos/$id/publico'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -165,6 +175,7 @@ export interface FileRouteTypes {
     | '/campeonatos/novo'
     | '/campeonatos/visualizar'
     | '/equipes/$id'
+    | '/equipes/nova'
     | '/campeonatos/$id/publico'
   id:
     | '__root__'
@@ -180,6 +191,7 @@ export interface FileRouteTypes {
     | '/campeonatos/novo'
     | '/campeonatos/visualizar'
     | '/equipes/$id'
+    | '/equipes/nova'
     | '/campeonatos/$id/publico'
   fileRoutesById: FileRoutesById
 }
@@ -255,6 +267,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/equipes/nova': {
+      id: '/equipes/nova'
+      path: '/nova'
+      fullPath: '/equipes/nova'
+      preLoaderRoute: typeof EquipesNovaRouteImport
+      parentRoute: typeof EquipesRoute
+    }
     '/equipes/$id': {
       id: '/equipes/$id'
       path: '/$id'
@@ -294,10 +313,12 @@ declare module '@tanstack/react-router' {
 }
 
 interface EquipesRouteChildren {
+  EquipesNovaRoute: typeof EquipesNovaRoute
   EquipesIdRoute: typeof EquipesIdRoute
 }
 
 const EquipesRouteChildren: EquipesRouteChildren = {
+  EquipesNovaRoute: EquipesNovaRoute,
   EquipesIdRoute: EquipesIdRoute,
 }
 
