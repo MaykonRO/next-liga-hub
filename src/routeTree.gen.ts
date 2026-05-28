@@ -313,13 +313,13 @@ declare module '@tanstack/react-router' {
 }
 
 interface EquipesRouteChildren {
-  EquipesNovaRoute: typeof EquipesNovaRoute
   EquipesIdRoute: typeof EquipesIdRoute
+  EquipesNovaRoute: typeof EquipesNovaRoute
 }
 
 const EquipesRouteChildren: EquipesRouteChildren = {
-  EquipesNovaRoute: EquipesNovaRoute,
   EquipesIdRoute: EquipesIdRoute,
+  EquipesNovaRoute: EquipesNovaRoute,
 }
 
 const EquipesRouteWithChildren =
