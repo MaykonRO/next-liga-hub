@@ -1,5 +1,6 @@
 import { Bell, Search, Plus } from "lucide-react";
 import { ReactNode } from "react";
+import { Link } from "@tanstack/react-router";
 
 interface TopbarProps {
   title: string;
@@ -23,10 +24,13 @@ export function Topbar({ title, subtitle, action }: TopbarProps) {
           <Search className="w-4 h-4 text-muted-foreground" />
         </button>
         {action ?? (
-          <button className="flex items-center gap-2 px-3 lg:px-4 h-9 rounded-lg bg-primary hover:bg-primary-hover transition text-sm font-medium text-primary-foreground">
+          <Link
+            to="/campeonatos/novo"
+            className="flex items-center gap-2 px-3 lg:px-4 h-9 rounded-lg bg-primary hover:bg-primary-hover transition text-sm font-medium text-primary-foreground"
+          >
             <Plus className="w-4 h-4" />
             <span className="hidden sm:inline">Novo campeonato</span>
-          </button>
+          </Link>
         )}
       </div>
     </header>

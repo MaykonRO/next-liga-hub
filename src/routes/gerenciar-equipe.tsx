@@ -1,8 +1,5 @@
 import { AppShell } from "@/components/AppShell";
 import { Topbar } from "@/components/Topbar";
-import { createFileRoute } from "@tanstack/react-router";
-import { Check, X, Trophy, Users, UserPlus } from "lucide-react";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Select,
@@ -11,6 +8,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowLeft, Check, Plus, Trophy, UserPlus, Users, X } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/gerenciar-equipe")({
@@ -23,13 +23,49 @@ export const Route = createFileRoute("/gerenciar-equipe")({
   component: GerenciarEquipePage,
 });
 
-const equipe = {
-  name: "Tigres FC",
-  sport: "Futebol",
-  current: 8,
-  max: 12,
-  initials: "TF",
-};
+interface Equipe {
+  id: string;
+  name: string;
+  sport: string;
+  current: number;
+  max: number;
+  initials: string;
+  color: string;
+  championships: number;
+}
+
+const equipesDisponiveis: Equipe[] = [
+  {
+    id: "tigres",
+    name: "Tigres FC",
+    sport: "Futebol",
+    current: 8,
+    max: 12,
+    initials: "TF",
+    color: "from-[#3d6ef5] to-[#5b87ff]",
+    championships: 3,
+  },
+  {
+    id: "leoes",
+    name: "Leões Unidos",
+    sport: "Futsal",
+    current: 6,
+    max: 10,
+    initials: "LU",
+    color: "from-[#22c55e] to-[#4ade80]",
+    championships: 2,
+  },
+  {
+    id: "aguias",
+    name: "Águias do Norte",
+    sport: "Vôlei",
+    current: 12,
+    max: 15,
+    initials: "AN",
+    color: "from-[#e8a93b] to-[#f0c36b]",
+    championships: 1,
+  },
+];
 
 const campeonatosDisponiveis = [
   { id: "c1", name: "Copa Regional 2026" },
@@ -52,6 +88,7 @@ const initialCandidatos: Candidato[] = [
 ];
 
 function GerenciarEquipePage() {
+  const [equipeSelecionada, setEquipeSelecionada] = useState<Equipe | null>(null);
   const [candidatos, setCandidatos] = useState(initialCandidatos);
   const [showSelect, setShowSelect] = useState(false);
   const [campeonato, setCampeonato] = useState<string>("");
@@ -78,18 +115,123 @@ function GerenciarEquipePage() {
     }
   };
 
+  const handleSelecionarEquipe = (equipe: Equipe) => {
+    setEquipeSelecionada(equipe);
+    toast.success(`Equipe ${equipe.name} selecionada!`);
+  };
+
+  const handleVoltarSelecao = () => {
+    setEquipeSelecionada(null);
+  };
+
+  // Se nenhuma equipe foi selecionada, mostra a tela de seleção
+  if (!equipeSelecionada) {
+    return (
+      <AppShell>
+        <Topbar
+          title="Gerenciar equipe"
+          subtitle="Selecione uma equipe para gerenciar"
+          action={<span />}
+        />
+        <main className="p-4 lg:p-8 space-y-6">
+          <div className="flex items-center justify-between gap-4 flex-wrap">
+            <div>
+              <h2 className="font-display text-2xl">Selecione uma equipe</h2>
+              <p className="text-sm text-muted-foreground mt-1">
+                {equipesDisponiveis.length} equipes disponíveis para gerenciar
+              </p>
+            </div>
+            <Link
+              to="/equipes/nova"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-primary hover:bg-primary-hover text-primary-foreground text-sm font-medium transition-colors"
+            >
+              <Plus className="w-4 h-4" />
+              Criar equipe
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {equipesDisponiveis.map((equipe) => (
+              <button
+                key={equipe.id}
+                onClick={() => handleSelecionarEquipe(equipe)}
+                className="p-5 rounded-2xl bg-surface border border-border card-hover cursor-pointer hover:border-primary/40 transition-colors text-left"
+              >
+                <div className="flex items-start gap-4">
+                  <div
+                    className={`w-14 h-14 rounded-xl bg-gradient-to-br ${equipe.color} flex items-center justify-center font-display text-lg text-white flex-shrink-0`}
+                  >
+                    {equipe.initials}
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-semibold truncate">{equipe.name}</h3>
+                    <span className="inline-block mt-1 text-[10px] px-2 py-0.5 rounded bg-primary/10 text-[#5b87ff] border border-primary/20">
+                      {equipe.sport}
+                    </span>
+                  </div>
+                </div>
+                <div className="mt-5 pt-4 border-t border-border grid grid-cols-2 gap-3">
+                  <div className="flex items-center gap-2">
+                    <Users className="w-4 h-4 text-muted-foreground" />
+                    <div>
+                      <div className="text-sm font-medium">
+                        {equipe.current}/{equipe.max}
+                      </div>
+                      <div className="text-[10px] text-muted-foreground">Membros</div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Trophy className="w-4 h-4 text-gold" />
+                    <div>
+                      <div className="text-sm font-medium">{equipe.championships}</div>
+                      <div className="text-[10px] text-muted-foreground">Títulos</div>
+                    </div>
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </main>
+      </AppShell>
+    );
+  }
+
+  // Se uma equipe foi selecionada, mostra a tela de gerenciamento
   return (
     <AppShell>
-      <Topbar title="Gerenciar equipe" subtitle="Administração da equipe" action={<span />} />
+      <Topbar
+        title="Gerenciar equipe"
+        subtitle="Administração da equipe"
+        action={
+          <Button variant="outline" size="sm" onClick={handleVoltarSelecao}>
+            Trocar equipe
+          </Button>
+        }
+      />
       <main className="p-4 lg:p-8 space-y-6">
+        {/* Botão voltar */}
+        <div className="flex items-center gap-3">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleVoltarSelecao}
+            className="flex items-center gap-2"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Voltar à seleção
+          </Button>
+        </div>
+
         {/* Header da equipe */}
         <section className="p-6 rounded-2xl bg-surface border border-border">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
-            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#3d6ef5] to-[#5b87ff] flex items-center justify-center font-display text-2xl text-white flex-shrink-0">
-              {equipe.initials}
+            <div
+              className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${equipeSelecionada.color} flex items-center justify-center font-display text-2xl text-white flex-shrink-0`}
+            >
+              {equipeSelecionada.initials}
             </div>
             <div className="flex-1">
-              <h2 className="font-display text-3xl">{equipe.name}</h2>
+              <h2 className="font-display text-3xl">{equipeSelecionada.name}</h2>
               <p className="text-sm text-muted-foreground mt-1">Painel de gerenciamento</p>
             </div>
           </div>
@@ -101,14 +243,15 @@ function GerenciarEquipePage() {
             <div className="flex items-center gap-2 text-xs text-muted-foreground uppercase tracking-wide">
               <Trophy className="w-4 h-4 text-gold" /> Modalidade
             </div>
-            <div className="mt-3 font-display text-2xl">{equipe.sport}</div>
+            <div className="mt-3 font-display text-2xl">{equipeSelecionada.sport}</div>
           </div>
           <div className="p-5 rounded-2xl bg-surface border border-border">
             <div className="flex items-center gap-2 text-xs text-muted-foreground uppercase tracking-wide">
               <Users className="w-4 h-4 text-[#5b87ff]" /> Participantes
             </div>
             <div className="mt-3 font-display text-2xl">
-              {equipe.current} <span className="text-muted-foreground text-lg">/ {equipe.max}</span>
+              {equipeSelecionada.current}{" "}
+              <span className="text-muted-foreground text-lg">/ {equipeSelecionada.max}</span>
             </div>
           </div>
         </section>
@@ -183,7 +326,9 @@ function GerenciarEquipePage() {
                     </div>
                     <div>
                       <div className="text-sm font-medium">{c.name}</div>
-                      <div className="text-[11px] text-muted-foreground">Solicitou entrada na equipe</div>
+                      <div className="text-[11px] text-muted-foreground">
+                        Solicitou entrada na equipe
+                      </div>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 sm:justify-end">

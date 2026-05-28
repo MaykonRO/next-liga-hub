@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { AppShell } from "@/components/AppShell";
 import { Topbar } from "@/components/Topbar";
 import { StatusPill } from "@/components/StatusPill";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { X, Check, Search } from "lucide-react";
 
 type InscricoesSearch = { campeonato?: string; equipe?: string };
@@ -32,10 +32,47 @@ const data = [
 
 function Registrations() {
   const [selected, setSelected] = useState<typeof data[0] | null>(null);
+  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+
+  useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => {
+        setMessage(null);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
+
+  const handleApprove = () => {
+    setMessage({ type: 'success', text: 'Inscrição aprovada com sucesso!' });
+    setSelected(null);
+  };
+
+  const handleReject = () => {
+    setMessage({ type: 'error', text: 'Inscrição rejeitada com sucesso!' });
+    setSelected(null);
+  };
 
   return (
     <AppShell>
       <Topbar title="Inscrições" subtitle="Aprove ou rejeite as solicitações de equipes" />
+      
+      {/* Message Toast */}
+      {message && (
+        <div className={`mx-4 lg:mx-8 mt-4 p-4 rounded-lg border flex items-center gap-2 transition-all duration-300 ${
+          message.type === 'success' 
+            ? 'bg-success/10 border-success/40 text-success' 
+            : 'bg-danger/10 border-danger/40 text-danger'
+        }`}>
+          {message.type === 'success' ? (
+            <Check className="w-4 h-4" />
+          ) : (
+            <X className="w-4 h-4" />
+          )}
+          <span className="text-sm font-medium">{message.text}</span>
+        </div>
+      )}
+      
       <main className="p-4 lg:p-8 space-y-6">
         {/* Filters */}
         <div className="flex flex-wrap gap-3">
@@ -134,10 +171,16 @@ function Registrations() {
                 </div>
               </div>
               <div className="flex gap-2 sticky bottom-0 bg-surface pt-4 border-t border-border -mx-6 px-6 pb-6">
-                <button className="flex-1 h-11 rounded-lg border border-danger/40 text-danger hover:bg-danger/10 transition flex items-center justify-center gap-2 text-sm font-medium">
+                <button 
+                  onClick={handleReject}
+                  className="flex-1 h-11 rounded-lg border border-danger/40 text-danger hover:bg-danger/10 transition flex items-center justify-center gap-2 text-sm font-medium"
+                >
                   <X className="w-4 h-4" /> Rejeitar
                 </button>
-                <button className="flex-1 h-11 rounded-lg bg-success hover:bg-success/90 transition text-background flex items-center justify-center gap-2 text-sm font-semibold">
+                <button 
+                  onClick={handleApprove}
+                  className="flex-1 h-11 rounded-lg bg-success hover:bg-success/90 transition text-background flex items-center justify-center gap-2 text-sm font-semibold"
+                >
                   <Check className="w-4 h-4" /> Aprovar
                 </button>
               </div>

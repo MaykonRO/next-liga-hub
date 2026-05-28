@@ -1,6 +1,7 @@
 import { AppShell } from "@/components/AppShell";
 import { Topbar } from "@/components/Topbar";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/equipes/nova")({
   head: () => ({
@@ -29,6 +30,20 @@ function SectionHeader({ index, title }: { index: number; title: string }) {
 }
 
 function NovaEquipePage() {
+  const navigate = useNavigate();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Simula a criação da equipe
+    toast.success("Equipe criada com sucesso!");
+
+    // Redireciona para a tela de gerenciar equipe após um breve delay
+    setTimeout(() => {
+      navigate({ to: "/gerenciar-equipe" });
+    }, 1);
+  };
+
   return (
     <AppShell>
       <Topbar
@@ -38,7 +53,7 @@ function NovaEquipePage() {
       />
       <main className="p-4 lg:p-8">
         <form
-          onSubmit={(e) => e.preventDefault()}
+          onSubmit={handleSubmit}
           className="max-w-6xl mx-auto rounded-2xl bg-surface border border-border p-6 lg:p-8 space-y-10"
         >
           {/* Section 1 */}

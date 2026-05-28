@@ -88,6 +88,34 @@ function Avatar({ initials, size = "md" }: { initials: string; size?: "sm" | "md
 
 function FeedPage() {
   const [text, setText] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [likedPosts, setLikedPosts] = useState<Set<string>>(new Set());
+
+  const handleImageClick = () => {
+    setText("");
+    setShowModal(true);
+  };
+
+  const handlePublishClick = () => {
+    setText("");
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const toggleLike = (postId: string) => {
+    setLikedPosts(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(postId)) {
+        newSet.delete(postId);
+      } else {
+        newSet.add(postId);
+      }
+      return newSet;
+    });
+  };
 
   return (
     <AppShell>
@@ -109,6 +137,7 @@ function FeedPage() {
               <div className="flex items-center justify-between mt-3">
                 <button
                   type="button"
+                  onClick={handleImageClick}
                   className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition"
                 >
                   <ImageIcon className="w-4 h-4" />
@@ -116,6 +145,7 @@ function FeedPage() {
                 </button>
                 <button
                   type="button"
+                  onClick={handlePublishClick}
                   className="px-4 h-9 rounded-lg bg-primary hover:bg-primary-hover transition text-sm font-medium text-primary-foreground"
                 >
                   Publicar
@@ -161,8 +191,15 @@ function FeedPage() {
             )}
 
             <div className="px-4 py-3 border-t border-border flex items-center gap-5 text-sm text-muted-foreground">
-              <button className="flex items-center gap-2 hover:text-danger transition">
-                <Heart className="w-4 h-4" />
+              <button 
+                onClick={() => toggleLike(post.id)}
+                className={`flex items-center gap-2 transition ${
+                  likedPosts.has(post.id) 
+                    ? 'text-red-500' 
+                    : 'hover:text-danger text-muted-foreground'
+                }`}
+              >
+                <Heart className={`w-4 h-4 ${likedPosts.has(post.id) ? 'fill-current' : ''}`} />
                 <span>{post.likes}</span>
               </button>
               <button className="flex items-center gap-2 hover:text-primary transition">
@@ -173,6 +210,23 @@ function FeedPage() {
           </article>
         ))}
       </div>
+
+      {/* Modal de sucesso */}
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="bg-surface border border-border rounded-xl p-6 max-w-sm w-full mx-4 shadow-xl">
+            <div className="text-center">
+              <h3 className="text-lg font-medium text-foreground mb-2">Publicado com sucesso!</h3>
+              <button
+                onClick={closeModal}
+                className="mt-4 px-6 py-2 bg-primary hover:bg-primary-hover rounded-lg text-sm font-medium text-primary-foreground transition"
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </AppShell>
   );
 }
