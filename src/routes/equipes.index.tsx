@@ -3,7 +3,7 @@ import { Topbar } from "@/components/Topbar";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Plus, Users, Trophy } from "lucide-react";
 
-export const Route = createFileRoute("/equipes")({
+export const Route = createFileRoute("/equipes/")({
   head: () => ({
     meta: [
       { title: "Equipes — NextLiga" },
