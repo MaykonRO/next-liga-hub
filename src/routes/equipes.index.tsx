@@ -1,7 +1,7 @@
 import { AppShell } from "@/components/AppShell";
 import { Topbar } from "@/components/Topbar";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Plus, Users, Trophy } from "lucide-react";
+import { Plus, Trophy, Users } from "lucide-react";
 
 export const Route = createFileRoute("/equipes/")({
   head: () => ({
@@ -14,20 +14,84 @@ export const Route = createFileRoute("/equipes/")({
 });
 
 const equipes = [
-  { id: "1", name: "Tigres FC", sport: "Futebol", players: 18, championships: 3, initials: "TF", color: "from-[#3d6ef5] to-[#5b87ff]" },
-  { id: "2", name: "Águias SC", sport: "Futebol", players: 22, championships: 5, initials: "AS", color: "from-[#e8a93b] to-[#f0c36b]" },
-  { id: "3", name: "Leões da Vila", sport: "Futsal", players: 14, championships: 2, initials: "LV", color: "from-[#3d6ef5] to-[#7aa0ff]" },
-  { id: "4", name: "Pumas Vôlei", sport: "Vôlei", players: 12, championships: 4, initials: "PV", color: "from-[#22c55e] to-[#4ade80]" },
-  { id: "5", name: "Dragões Basquete", sport: "Basquete", players: 10, championships: 1, initials: "DB", color: "from-[#e85d3a] to-[#f08164]" },
-  { id: "6", name: "Falcões FC", sport: "Futebol", players: 20, championships: 2, initials: "FF", color: "from-[#5b87ff] to-[#a78bfa]" },
-  { id: "7", name: "Lobos do Sul", sport: "Futebol", players: 19, championships: 6, initials: "LS", color: "from-[#e8a93b] to-[#e85d3a]" },
-  { id: "8", name: "Tubarões Brancos", sport: "Vôlei", players: 13, championships: 0, initials: "TB", color: "from-[#22c55e] to-[#3d6ef5]" },
+  {
+    id: "1",
+    name: "Tigres FC",
+    sport: "Futebol",
+    players: 18,
+    championships: 3,
+    initials: "TF",
+    color: "from-[#3d6ef5] to-[#5b87ff]",
+  },
+  {
+    id: "2",
+    name: "Águias SC",
+    sport: "Futebol",
+    players: 22,
+    championships: 5,
+    initials: "AS",
+    color: "from-[#e8a93b] to-[#f0c36b]",
+  },
+  {
+    id: "3",
+    name: "Leões da Vila",
+    sport: "Futsal",
+    players: 14,
+    championships: 2,
+    initials: "LV",
+    color: "from-[#3d6ef5] to-[#7aa0ff]",
+  },
+  {
+    id: "4",
+    name: "Pumas Vôlei",
+    sport: "Vôlei",
+    players: 12,
+    championships: 4,
+    initials: "PV",
+    color: "from-[#22c55e] to-[#4ade80]",
+  },
+  {
+    id: "5",
+    name: "Dragões Basquete",
+    sport: "Basquete",
+    players: 10,
+    championships: 1,
+    initials: "DB",
+    color: "from-[#e85d3a] to-[#f08164]",
+  },
+  {
+    id: "6",
+    name: "Falcões FC",
+    sport: "Futebol",
+    players: 20,
+    championships: 2,
+    initials: "FF",
+    color: "from-[#5b87ff] to-[#a78bfa]",
+  },
+  {
+    id: "7",
+    name: "Lobos do Sul",
+    sport: "Futebol",
+    players: 19,
+    championships: 6,
+    initials: "LS",
+    color: "from-[#e8a93b] to-[#e85d3a]",
+  },
+  {
+    id: "8",
+    name: "Tubarões Brancos",
+    sport: "Vôlei",
+    players: 13,
+    championships: 0,
+    initials: "TB",
+    color: "from-[#22c55e] to-[#3d6ef5]",
+  },
 ];
 
 function EquipesPage() {
   return (
     <AppShell>
-      <Topbar title="Equipes" subtitle="Gerencie todas as equipes cadastradas" />
+      <Topbar title="Equipes" subtitle="Gerencie todas as equipes cadastradas" action={<span />} />
       <main className="p-4 lg:p-8 space-y-6">
         <div className="flex items-center justify-between gap-4 flex-wrap">
           <div>

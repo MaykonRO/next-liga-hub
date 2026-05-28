@@ -62,28 +62,6 @@ function RegisterPage() {
 
   const validate = (): Errors => {
     const e: Errors = {};
-    if (!form.name.trim()) e.name = "Informe seu nome completo.";
-    if (!form.email.trim()) e.email = "Informe seu e-mail.";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
-      e.email = "E-mail inválido.";
-    if (!form.password) e.password = "Informe uma senha.";
-    else if (form.password.length < 6) e.password = "A senha deve ter ao menos 6 caracteres.";
-    if (!form.confirm) e.confirm = "Confirme sua senha.";
-    else if (form.confirm !== form.password) e.confirm = "As senhas não coincidem.";
-
-    if (!form.modalidade) e.modalidade = "Selecione uma modalidade.";
-
-    const altura = parseFloat(form.altura.replace(",", "."));
-    if (!form.altura) e.altura = "Informe sua altura em centímetros.";
-    else if (Number.isNaN(altura) || altura <= 0) e.altura = "Altura inválida.";
-    else if (altura < 50 || altura > 280) e.altura = "Altura deve estar entre 50 e 280 cm.";
-
-    const peso = parseFloat(form.peso.replace(",", "."));
-    if (!form.peso) e.peso = "Informe seu peso em quilogramas.";
-    else if (Number.isNaN(peso) || peso <= 0) e.peso = "Peso inválido.";
-    else if (peso < 20 || peso > 400) e.peso = "Peso deve estar entre 20 e 400 kg.";
-
-    if (!form.lado) e.lado = "Selecione o lado dominante.";
 
     return e;
   };
@@ -93,7 +71,7 @@ function RegisterPage() {
     const e = validate();
     setErrors(e);
     if (Object.keys(e).length === 0) {
-      navigate({ to: "/dashboard" });
+      navigate({ to: "/login" });
     }
   };
 

@@ -128,9 +128,46 @@ function Dashboard() {
             </div>
 
             {/* Quick actions */}
-            <Link to="/campeonatos/novo" type="button">
-              <div className="grid grid-cols-2 gap-4">
-                {quickActions.map((q) => (
+            <div className="grid grid-cols-2 gap-4">
+              {quickActions.map((q) => {
+                // Define a rota com base no label do botão
+                const getRoute = () => {
+                  if (q.label === "Novo campeonato") {
+                    return "/campeonatos/novo";
+                  }
+                  if (q.label === "Aprovar inscrições") {
+                    return "/inscricoes";
+                  }
+
+                  if (q.label === "Notificar equipes") {
+                    return "/equipes";
+                  }
+                  // Para outros botões que ainda não têm rota específica
+                  return "#";
+                };
+
+                const route = getRoute();
+
+                // Se há uma rota válida, usa Link; senão, apenas um botão
+                if (route !== "#") {
+                  return (
+                    <Link key={q.label} to={route}>
+                      <button className="w-full p-5 rounded-2xl bg-surface border border-border card-hover text-left flex items-start gap-4">
+                        <div
+                          className={`w-10 h-10 rounded-lg flex items-center justify-center ${q.bg}`}
+                        >
+                          <q.icon className={`w-5 h-5 ${q.color}`} />
+                        </div>
+                        <div>
+                          <div className="font-medium text-sm">{q.label}</div>
+                          <div className="text-xs text-muted-foreground">{q.desc}</div>
+                        </div>
+                      </button>
+                    </Link>
+                  );
+                }
+
+                return (
                   <button
                     key={q.label}
                     className="p-5 rounded-2xl bg-surface border border-border card-hover text-left flex items-start gap-4"
@@ -145,9 +182,9 @@ function Dashboard() {
                       <div className="text-xs text-muted-foreground">{q.desc}</div>
                     </div>
                   </button>
-                ))}
-              </div>
-            </Link>
+                );
+              })}
+            </div>
           </div>
 
           {/* Right column */}
